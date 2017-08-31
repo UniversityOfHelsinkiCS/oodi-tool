@@ -1,0 +1,12 @@
+node_modules/
+
+#compiled app
+dist/
+
+#gedit files
+*~
+
+npm-debug.log
+
+#compiled js
+app.min.js
