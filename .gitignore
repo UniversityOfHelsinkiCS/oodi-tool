@@ -10,3 +10,6 @@ npm-debug.log
 
 #compiled js
 app.min.js
+
+#secrets
+config.js

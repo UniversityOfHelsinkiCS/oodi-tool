@@ -4,6 +4,7 @@ import { fetchFrozenCourses } from './apiCaller.jsx';
 
 const FileSaver = require('file-saver');
 const contentNode = document.getElementById('app');
+const config = require('../config.js')
 
 class CourseList extends Component {
   constructor() {
@@ -16,7 +17,7 @@ class CourseList extends Component {
   }
   fetchFrozenCourses = () => {
     //TODO: Add error handling
-    fetch('http://localhost:4567/frozen_courses')
+    fetch('http://localhost:4567/frozen_courses?authorization=' + config.authKey)
         .then((response) => {
           return response.json();
         }).then((data) => {
@@ -85,7 +86,7 @@ class CourseDownload extends Component {
 
   fetchCourseInfo = (e) => {
     e.preventDefault();
-    fetch('http://localhost:4567/frozen_course_details/' + this.props.link)
+    fetch('http://localhost:4567/frozen_course_participants/' + this.props.link + '?authorization=' + config.authKey)
         .then((response) => {
           return response.json();
         }).then((data) => {
@@ -94,12 +95,14 @@ class CourseDownload extends Component {
         });
   }
 
+
   formatData = (data) =>  {
     let row = [];
     let result = '';
     for (var i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      this.formatRow(data[i]);
       row = Object.values(data[i]);
-      console.log(row);
       for (var j = 0; j < row.length; j++) {
         result += row[j] + '#';
       }
@@ -109,6 +112,21 @@ class CourseDownload extends Component {
     }
     console.log(result);
     return result;
+  }
+
+// Formats student_id and date in the right form.
+// TODO: Checks if grader_id exists
+// if exists: deletes grader_uni_id and sets hyväksyjän tunnuksen tyyppi to 1
+// else deletes grader_id and sets ^ to ???
+// TODO: How to react if student_id is not available?
+// TODO: Sets the organization_id determined by the code [CSM, DAT, TKT, or else H523]
+// TODO: Addd ,0 to credits?
+  formatRow = (row) => {
+    let formattedDate = new Date(row['finish_date']).toLocaleDateString();
+    let formattedStudentId = row['student_id'].slice(0,6) +'-' + row['student_id'].slice(6);
+    row['finish_date'] = formattedDate;
+    row['student_id'] = formattedStudentId;
+
   }
 
   render() {

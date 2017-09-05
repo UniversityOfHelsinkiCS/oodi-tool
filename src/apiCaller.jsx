@@ -1,3 +1,5 @@
+// Not yet in use
+
 export const fetchFrozenCourses = () => {
   //TODO: Add error handling
   fetch('http://localhost:4567/frozen_courses')
