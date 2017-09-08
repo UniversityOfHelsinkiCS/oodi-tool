@@ -1,7 +1,7 @@
 {
-  "name": "OodiT",
+  "name": "OodiTool",
   "version": "1.0.0",
-  "description": "",
+  "description": "Tool for moving frozen courses from Kurki to Weboodi",
   "author": "",
   "main": "main.js",
   "scripts": {
