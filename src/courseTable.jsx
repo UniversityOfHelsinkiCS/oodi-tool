@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import CourseDownload from './courseDownload.jsx';
 
 export function CourseTable(props) {
@@ -26,17 +26,38 @@ export function CourseTable(props) {
   )
 }
 
-const CourseRow = props => (
-  <tr>
-    <td>{props.course.code}</td>
-    <td>{props.course.name}</td>
-    <td>{props.course.year}</td>
-    <td>{props.course.term}</td>
-    <td>{props.course.type}</td>
-    <td>{props.course.number}</td>
-    <td>{props.course.responsible}</td>
-    <td><CourseDownload
-      link={props.course.code + '.' + props.course.year + '.'  + props.course.term + '.'
-        + props.course.type + '.' + props.course.number} /></td>
-  </tr>
-);
+class CourseRow extends Component {
+  constructor() {
+    super();
+    this.state = {
+      visible: true
+    }
+  }
+
+  hideRow = () => {
+    this.setState({ visible: false})
+
+  }
+
+  render() {
+    return(
+      <tr>
+
+          <td>{this.props.course.code}</td>
+          <td>{this.props.course.name}</td>
+          <td>{this.props.course.year}</td>
+          <td>{this.props.course.term}</td>
+          <td>{this.props.course.type}</td>
+          <td>{this.props.course.number}</td>
+          <td>{this.props.course.responsible}</td>
+          {
+            this.state.visible ?
+              <td><CourseDownload
+              link={this.props.course.code + '.' + this.props.course.year + '.'  + this.props.course.term + '.'
+                + this.props.course.type + '.' + this.props.course.number}
+                hideRow={this.hideRow}/></td>
+              : null
+            }
+      </tr>
+    ) };
+}

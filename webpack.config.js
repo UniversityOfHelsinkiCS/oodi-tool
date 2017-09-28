@@ -1,4 +1,3 @@
-const debug = process.env.NODE_ENV !== "production";
 const webpack = require('webpack');
 const path = require('path');
 
@@ -7,26 +6,29 @@ const DIST_DIR = path.resolve(__dirname, '.')
 
 module.exports = {
     context: __dirname,
-    devtool: debug ? "inline-source-map" : null,
     cache: true,
     entry:  SRC_DIR + "/client.jsx",
     module: {
         loaders: [{
-            test: /\.jsx?$/,
-            exclude: 'node_modules',
-            loader: 'babel-loader',
-            query: {
-                presets: ['react', 'env', 'stage-0']
-            }
-        }]
+          test: /\.jsx?$/,
+          exclude: 'node_modules',
+          loader: 'babel-loader',
+          query: {
+              presets: ['react', 'env', 'stage-0']
+          }
+        }
+      ]
     },
+
     output: {
         path: DIST_DIR,
         filename: "/app.min.js"
     },
-    plugins: debug ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        }
+      })
     ],
 };
