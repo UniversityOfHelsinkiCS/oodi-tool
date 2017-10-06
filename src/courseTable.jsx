@@ -18,6 +18,7 @@ export function CourseTable(props) {
           <th>Type</th>
           <th>Number</th>
           <th>Responsible</th>
+          <th>Finish date</th>
           <th>Download</th>
         </tr>
       </thead>
@@ -35,8 +36,7 @@ class CourseRow extends Component {
   }
 
   hideRow = () => {
-    this.setState({ visible: false})
-
+    this.setState({ visible: false })
   }
 
   render() {
@@ -50,6 +50,7 @@ class CourseRow extends Component {
           <td>{this.props.course.type}</td>
           <td>{this.props.course.number}</td>
           <td>{this.props.course.responsible}</td>
+          <td>{this.props.course.finish_date}</td>
           {
             this.state.visible ?
               <td><CourseDownload

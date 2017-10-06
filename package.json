@@ -1,6 +1,6 @@
 {
   "name": "OodiTool",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tool for moving frozen courses from Kurki to Weboodi",
   "author": "Tuomo Torppa",
   "main": "main.js",
@@ -8,7 +8,8 @@
   "scripts": {
     "watch": "webpack --watch --progress --debug",
     "build": "webpack --progress",
-    "app": "electron .",
+    "start": "NODE_ENV=development electron .",
+    "app": "NODE_ENV=production electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "test": "ava"
@@ -29,7 +30,6 @@
     "electron-builder": "^19.24.1"
   },
   "dependencies": {
-    "file-saver": "^1.3.3",
     "moment": "^2.18.1",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",

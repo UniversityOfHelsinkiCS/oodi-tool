@@ -13,3 +13,6 @@ app.min.js
 
 #secrets
 .ooditconfig.js
+
+# student data
+data/

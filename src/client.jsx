@@ -26,11 +26,10 @@ class CourseList extends Component {
         });
   }
 
-
   render() {
     return (
       <div>
-        <h1>Welcome to OodiTool</h1>
+        <h1>OodiTool</h1>
         <hr />
         <CourseTable courses={this.state.courses}/>
       </div>

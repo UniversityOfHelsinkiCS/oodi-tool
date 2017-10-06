@@ -7,6 +7,7 @@ const DIST_DIR = path.resolve(__dirname, '.')
 module.exports = {
     context: __dirname,
     cache: true,
+    target: 'node',
     entry:  SRC_DIR + "/client.jsx",
     module: {
         loaders: [{
@@ -24,11 +25,4 @@ module.exports = {
         path: DIST_DIR,
         filename: "/app.min.js"
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify('production')
-        }
-      })
-    ],
 };
