@@ -39,3 +39,7 @@ To test run:
 ```
 npm test
 ```
+
+## States:
+
+![alt text](toolstates.png)
