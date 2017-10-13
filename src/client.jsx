@@ -16,13 +16,14 @@ class CourseList extends Component {
   }
 
   fetchFrozenCourses = () => {
-    //TODO: Add error handling
     fetch(config.address + 'froyo/frozen_courses?authorization=' + config.authKey)
         .then((response) => {
           return response.json();
         }).then((data) => {
           this.setState({ courses: data });
           return data;
+        }).catch((err) => {
+          alert('Courses could not be fetched, error message:\n' + err);
         });
   }
 

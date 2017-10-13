@@ -1,7 +1,10 @@
 import moment from 'moment';
 moment.locale('fi');
-// Returns the data in the correct form for the file
+
 export const formatData = (data) =>  {
+  const date = moment(new Date(data[0]['finish_date'])).format('DD.MM.YY');
+  const bachelors = data[0]['code'] == 'TKT20013' && data[0]['grade']
+    && data[0]['grade'] != '-' && data[0]['grade'] != '0';
   let result = [];
   let courseRows = '';
   let arr = [];
@@ -12,7 +15,6 @@ export const formatData = (data) =>  {
   let tutkimusthaku = [];
   let aidinkviestinta =  [];
   let kypsyysnayte =  [];
-  const date = moment(new Date(data[0]['finish_date'])).format('DD.MM.YY');
 
   for (var i = 0; i < data.length; i++) {
     console.log(data[i]);
@@ -20,9 +22,9 @@ export const formatData = (data) =>  {
     formatRow(data[i]);
     courseRows += rowText(data[i])
     courseRows += '\n';
+    console.log(data[i]['grade'])
 
-    // Add
-    if(data[i]['code'] == 'TKT20013') {
+    if(bachelors) {
       for(var k in data[i]) {
         tutkimusthaku[k]=data[i][k];
         aidinkviestinta[k]=data[i][k];
@@ -39,7 +41,7 @@ export const formatData = (data) =>  {
     }
   }
   console.log(tutkimusthaku);
-  if(data[0]['code'] == 'TKT20013') {
+  if(bachelors) {
     const tutkimusTitle = createTitle(tutkimusthaku, date);
     const aidinkTitle = createTitle(aidinkviestinta, date);
     const kypsyysTitle = createTitle(kypsyysnayte, date);

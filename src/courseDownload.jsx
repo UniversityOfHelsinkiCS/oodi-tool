@@ -47,6 +47,8 @@ export default class CourseDownload extends Component {
                 'and relative path ./data');
              this.props.hideRow();
           // });
+        }).catch((err) => {
+          alert('Something went wrong, error message: \n' + err);
         });
   }
 

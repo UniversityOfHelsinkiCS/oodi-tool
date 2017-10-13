@@ -50,7 +50,7 @@ class CourseRow extends Component {
           <td>{this.props.course.type}</td>
           <td>{this.props.course.number}</td>
           <td>{this.props.course.responsible}</td>
-          <td>{this.props.course.finish_date}</td>
+          <td>{this.props.course.finish_date.slice(0,10)}</td>
           {
             this.state.visible ?
               <td><CourseDownload
