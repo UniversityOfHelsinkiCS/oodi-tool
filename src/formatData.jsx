@@ -3,72 +3,81 @@ moment.locale('fi');
 
 export const formatData = (data) =>  {
   const date = moment(new Date(data[0]['finish_date'])).format('DD.MM.YY');
-  const bachelors = data[0]['code'] == 'TKT20013' && data[0]['grade']
-    && data[0]['grade'] != '-' && data[0]['grade'] != '0';
+  const bachelors = data[0]['code'] == 'TKT20013';
   let result = [];
   let courseRows = '';
   let arr = [];
-// Used only if course is bachelors thesis
+  // Used only if course is bachelors thesis
   let tutkimusRows = '';
   let aidinkRows = '';
   let kypsyysRows = '';
   let tutkimusthaku = [];
   let aidinkviestinta =  [];
   let kypsyysnayte =  [];
+  let title = '';
 
   for (var i = 0; i < data.length; i++) {
-    console.log(data[i]);
-
+    if(!data[i]['grade'] || data[i]['grade'] ==='-' ) {
+      continue
+    }
     formatRow(data[i]);
     courseRows += rowText(data[i])
     courseRows += '\n';
-    console.log(data[i]['grade'])
 
-    if(bachelors) {
-      for(var k in data[i]) {
-        tutkimusthaku[k]=data[i][k];
-        aidinkviestinta[k]=data[i][k];
-        kypsyysnayte[k]=data[i][k];
+    if(bachelors && data[i]['grade'] != '0') {
+      if(data[i]['harjoitustyopisteet'].charAt(4) != '?') {
+        alert('Student needs attention! Only thesis credits will be generated for student '
+        + data[i]['student_uni_id'] + '. \nContact course admin to find out what needs to be done.');
+      } else {
+        for(var k in data[i]) {
+          tutkimusthaku[k]=data[i][k];
+          aidinkviestinta[k]=data[i][k];
+          kypsyysnayte[k]=data[i][k];
+        }
+        addTutkimus(tutkimusthaku);
+        addAidink(aidinkviestinta);
+        addKypsyys(kypsyysnayte);
+
+        tutkimusRows += rowText(tutkimusthaku) + '\n';
+        aidinkRows += rowText(aidinkviestinta) + '\n';
+        kypsyysRows += rowText(kypsyysnayte) + '\n';
       }
-      addTutkimus(tutkimusthaku);
-      addAidink(aidinkviestinta);
-      addKypsyys(kypsyysnayte);
-
-      tutkimusRows += rowText(tutkimusthaku) + '\n';
-      aidinkRows += rowText(aidinkviestinta) + '\n';
-      kypsyysRows += rowText(kypsyysnayte) + '\n';
-      console.log(aidinkRows);
     }
+    if(title.length==0) title = createTitle(data[i], date);
   }
-  console.log(tutkimusthaku);
-  if(bachelors) {
+  // Doesn't create extra files if all bachelors are exceptional
+  if(bachelors && tutkimusthaku.length > 1) {
     const tutkimusTitle = createTitle(tutkimusthaku, date);
     const aidinkTitle = createTitle(aidinkviestinta, date);
     const kypsyysTitle = createTitle(kypsyysnayte, date);
     result.push(tutkimusTitle, tutkimusRows, aidinkTitle, aidinkRows, kypsyysTitle, kypsyysRows);
   }
-  console.log(courseRows)
-  const title = createTitle(data[0], date);
   result.push(title, courseRows);
   return result;
 }
 
 export const formatRow = (row) => {
   row['finish_date'] = moment(new Date(row['finish_date'])).format('L');
-  row['student_id'] = row['student_id'].slice(0,6) +'-' + row['student_id'].slice(6);
-
-  if(!row['grade'] || row['grade'] ==='-' ) row['grade'] = 'Eisa';
+  
   if(row['grade'] === '0') row['grade'] = 'Hyl.';
+  if(row['grade'] === '+') row['grade'] = 'Hyv.';
 
-  if(row['language_id'] == 3) row['language_id'] = 6; // In kurki en=2, oodi en=6
+  if(row['language_id'] == 3) row['language_id'] = 6; // In kurki en=3, oodi en=6
+  if(row['student_credits']) row['credits'] = row['student_credits']; 
   row['credits'] += ',0';
-
-  if(row['grader_id']) row['grader_id_type'] = '1';
 
   if(row['code'].includes('CSM')) row['organization_id'] = '500-M009';
   else if(row['code'].includes('DATA')) row['organization_id'] = '500-M010';
-  else if(row['code'].includes('TKT')) row['organization_id'] = 'DATA500-K005';
+  else if(row['code'].includes('TKT')) row['organization_id'] = '500-K005';
   else row['organization_id'] = 'H523';
+
+// If grader's social security number is not in Kurki, use Organisation ID 
+  if(row['grader_id']) {
+    row['grader_id_type'] = '1'
+  } else {
+    row['grader_id_type'] = '3'
+    row['grader_id'] = row['organization_id']
+  }
 }
 
 const rowText = (row) => {
