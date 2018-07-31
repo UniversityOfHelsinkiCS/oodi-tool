@@ -1,10 +1,9 @@
 {
-  "name": "OodiTool",
-  "version": "0.1.5",
+  "name": "ooditool",
+  "version": "0.1.8",
   "description": "Tool for moving frozen courses from Kurki to Weboodi",
   "author": "Tuomo Torppa",
   "main": "main.js",
-  "os": "linux",
   "scripts": {
     "watch": "webpack --watch --progress --debug",
     "build": "webpack --progress",
@@ -19,22 +18,22 @@
   },
   "devDependencies": {
     "ava": "^0.22.0",
-    "babel-core": "^6.4.5",
+    "babel-core": "^6.26.3",
     "babel-loader": "^6.2.1",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.26.0",
-    "electron": "^1.4.1",
-    "electron-builder": "^19.24.1"
+    "electron": "^2.0.5",
+    "electron-builder": "^19.56.2"
   },
   "dependencies": {
-    "moment": "^2.18.1",
-    "react": "^15.4.0",
-    "react-dom": "^15.4.0",
+    "moment": "^2.22.2",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "webpack": "^1.13.3",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.4"
   },
   "ava": {
     "files": [
