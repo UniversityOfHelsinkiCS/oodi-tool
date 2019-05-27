@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
+import { reportDownloadButton } from './reportDownloadButton.jsx'
 
 const SuotarReportTable = ({ data }) => {
-  if (!data) return <div>no data perkele</div>
-
   const reportRows = data.map((obj) => (
     <tr key={obj.id}>
       <td>{obj.id}</td>
       <td>{obj.fileName}</td>
+      <td>{reportDownloadButton(obj.id)}</td>
     </tr>
   ))
 
@@ -16,6 +16,7 @@ const SuotarReportTable = ({ data }) => {
         <tr>
           <th>Report Id</th>
           <th>File name</th>
+          <th>Download</th>
         </tr>
       </thead>
       <tbody>{reportRows}</tbody>

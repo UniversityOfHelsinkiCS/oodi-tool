@@ -34,7 +34,7 @@ class CourseList extends Component {
   }
 
   fetchSuotarReports = () => {
-    fetch(config.suotarAddress + 'reports/undownloaded', {
+    fetch(config.suotarAddress + 'undownloaded', {
       method: 'GET',
       headers: {
         Authorization: config.suotarToken
@@ -50,10 +50,6 @@ class CourseList extends Component {
           `Courses could not be fetched from Suoritustarkistin, error message:\n${err}`
         )
       })
-    /*const mockData = [{ id: 1, fileName: 'asd' }, { id: 2, fileName: 'dsa' }]
-    this.setState({ ...this.state, suotarReports: mockData })
-    console.log('state updated', this.state.suotarReports)
-    return mockData*/
   }
 
   render() {
