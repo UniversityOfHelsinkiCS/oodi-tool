@@ -1,30 +1,59 @@
-import React, { Component, Button } from 'react';
-import ReactDOM from 'react-dom';
-import { CourseTable } from './courseTable.jsx';
+import React, { Component, Button } from 'react'
+import ReactDOM from 'react-dom'
+import { CourseTable } from './courseTable.jsx'
+import { SuotarReportTable } from './suotarReportTable.jsx'
 
-const contentNode = document.getElementById('app');
-const config = require('../.ooditconfig.js');
+const contentNode = document.getElementById('app')
+const config = require('../.ooditconfig.js')
 
 class CourseList extends Component {
   constructor() {
-    super();
-    this.state  = { courses : []};
+    super()
+    this.state = { courses: [], suotarReports: [] }
   }
 
   componentDidMount() {
-    this.fetchFrozenCourses();
+    this.fetchFrozenCourses()
+    this.fetchSuotarReports()
   }
 
   fetchFrozenCourses = () => {
-    fetch(config.address + 'froyo/frozen_courses?authorization=' + config.authKey)
-        .then((response) => {
-          return response.json();
-        }).then((data) => {
-          this.setState({ courses: data });
-          return data;
-        }).catch((err) => {
-          alert('Courses could not be fetched, error message:\n' + err);
-        });
+    fetch(
+      config.address + 'froyo/frozen_courses?authorization=' + config.authKey
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        this.setState({ ...this.state, courses: data })
+        return data
+      })
+      .catch((err) => {
+        alert('Courses could not be fetched, error message:\n' + err)
+      })
+  }
+
+  fetchSuotarReports = () => {
+    fetch(config.suotarAddress + 'reports/undownloaded', {
+      method: 'GET',
+      headers: {
+        Authorization: config.suotarToken
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ ...this.state, suotarReports: data })
+        return data
+      })
+      .catch((err) => {
+        alert(
+          `Courses could not be fetched from Suoritustarkistin, error message:\n${err}`
+        )
+      })
+    /*const mockData = [{ id: 1, fileName: 'asd' }, { id: 2, fileName: 'dsa' }]
+    this.setState({ ...this.state, suotarReports: mockData })
+    console.log('state updated', this.state.suotarReports)
+    return mockData*/
   }
 
   render() {
@@ -32,11 +61,14 @@ class CourseList extends Component {
       <div>
         <h1>OodiTool</h1>
         <hr />
-        <CourseTable courses={this.state.courses}/>
+        <h2>Courses from Kurki</h2>
+        <CourseTable courses={this.state.courses} />
+        <h2>Courses from Suoritustarkistin</h2>
+        <SuotarReportTable data={this.state.suotarReports} />
       </div>
-    );
+    )
   }
 }
 
-ReactDOM.render(<CourseList />, contentNode);
+ReactDOM.render(<CourseList />, contentNode)
 const appDom = document.getElementById('app')
