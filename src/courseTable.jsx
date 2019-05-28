@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import CourseDownload from './courseDownload.jsx';
+import React, { Component } from 'react'
+import CourseDownload from './courseDownload.jsx'
 
 export function CourseTable(props) {
-  const courseRows = props.courses.map((course, index) => <CourseRow
-    key={index}
-    course={course}
-    />);
+  const courseRows = props.courses.map((course, index) => (
+    <CourseRow key={index} course={course} />
+  ))
+
+  if (courseRows.length === 0) return <div>No new courses available.</div>
 
   return (
     <table>
@@ -29,7 +30,7 @@ export function CourseTable(props) {
 
 class CourseRow extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       visible: true
     }
@@ -40,25 +41,35 @@ class CourseRow extends Component {
   }
 
   render() {
-    return(
+    return (
       <tr>
-
-          <td>{this.props.course.code}</td>
-          <td>{this.props.course.name}</td>
-          <td>{this.props.course.year}</td>
-          <td>{this.props.course.term}</td>
-          <td>{this.props.course.type}</td>
-          <td>{this.props.course.number}</td>
-          <td>{this.props.course.responsible}</td>
-          <td>{this.props.course.finish_date.slice(0,10)}</td>
-          {
-            this.state.visible ?
-              <td><CourseDownload
-              link={this.props.course.code + '.' + this.props.course.year + '.'  + this.props.course.term + '.'
-                + this.props.course.type + '.' + this.props.course.number}
-                hideRow={this.hideRow}/></td>
-              : null
-            }
+        <td>{this.props.course.code}</td>
+        <td>{this.props.course.name}</td>
+        <td>{this.props.course.year}</td>
+        <td>{this.props.course.term}</td>
+        <td>{this.props.course.type}</td>
+        <td>{this.props.course.number}</td>
+        <td>{this.props.course.responsible}</td>
+        <td>{this.props.course.finish_date.slice(0, 10)}</td>
+        {this.state.visible ? (
+          <td>
+            <CourseDownload
+              link={
+                this.props.course.code +
+                '.' +
+                this.props.course.year +
+                '.' +
+                this.props.course.term +
+                '.' +
+                this.props.course.type +
+                '.' +
+                this.props.course.number
+              }
+              hideRow={this.hideRow}
+            />
+          </td>
+        ) : null}
       </tr>
-    ) };
+    )
+  }
 }
