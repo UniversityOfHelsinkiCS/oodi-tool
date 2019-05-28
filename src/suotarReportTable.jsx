@@ -10,6 +10,8 @@ const SuotarReportTable = ({ data }) => {
     </tr>
   ))
 
+  if (reportRows.length === 0) return <div>No new reports available.</div>
+
   return (
     <table>
       <thead>
