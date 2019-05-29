@@ -25,24 +25,32 @@ export default class CourseDownload extends Component {
           let result = formatData(data)
           console.log(data)
           if (result[1].length > 0) {
-            const file = fs.createWriteStream('./data/' + result[0])
+            const file = fs.createWriteStream(config.saveLocation + result[0])
             file.write(result[1])
             file.end()
             // if more than one Transfer file needs to be created (only bachelors thesis)
             if (result.length > 2) {
-              const file4 = fs.createWriteStream('./data/' + result[2])
+              const file4 = fs.createWriteStream(
+                config.saveLocation + result[2]
+              )
               file2.write(result[3])
               file2.end()
 
-              const file7 = fs.createWriteStream('./data/' + result[4])
+              const file7 = fs.createWriteStream(
+                config.saveLocation + result[4]
+              )
               file3.write(result[5])
               file3.end()
 
-              const file10 = fs.createWriteStream('./data/' + result[6])
+              const file10 = fs.createWriteStream(
+                config.saveLocation + result[6]
+              )
               file4.write(result[7])
               file4.end()
             }
-            alert('Transfer file has been downloaded to ./data')
+            console.log(
+              `Transfer file has been downloaded to ${config.saveLocation}`
+            )
           } else {
             alert('There are no passed students on this course instance')
           }

@@ -56,6 +56,10 @@ class CourseList extends Component {
     return (
       <div>
         <h1>OodiTool</h1>
+        <div>
+          Current working directory: {process.cwd()} - files are downloaded to
+          {config.saveLocation}
+        </div>
         <hr />
         <h2>Courses from Kurki</h2>
         <CourseTable courses={this.state.courses} />
