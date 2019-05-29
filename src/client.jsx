@@ -1,4 +1,4 @@
-import React, { Component, Button } from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { CourseTable } from './courseTable.jsx'
 import { SuotarReportTable } from './suotarReportTable.jsx'
