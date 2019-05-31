@@ -12,10 +12,16 @@ const reportDownloadButton = (id, hideRow) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const file = fs.createWriteStream(config.saveLocation + data.fileName)
-        file.write(data.data)
-        file.end()
-        hideRow()
+        fs.writeFile(config.saveLocation + data.fileName, data.data, (err) => {
+          if (err) {
+            alert(
+              'Error writing transfer file. Please retry and contact TOSKA.'
+            )
+            console.log(err)
+          } else {
+            hideRow()
+          }
+        })
       })
       .catch((e) => {
         alert(`Report could not be downloaded. Error message:\n${e}`)
