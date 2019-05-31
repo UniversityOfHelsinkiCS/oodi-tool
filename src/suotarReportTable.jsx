@@ -46,7 +46,7 @@ class ReportRow extends Component {
       <tr>
         <td>{this.props.course.id}</td>
         <td>{this.props.course.courseName}</td>
-        <td>{this.props.course.courseName}</td>
+        <td>{this.props.course.fileName}</td>
         {this.state.visible ? (
           <td>{reportDownloadButton(this.props.course.id, this.hideRow)}</td>
         ) : null}
