@@ -1,17 +1,18 @@
 {
   "name": "ooditool",
   "version": "0.1.8",
-  "description": "Tool for moving frozen courses from Kurki to Weboodi",
-  "author": "Tuomo Torppa",
+  "description": "Tool for getting course completions from Kurki and Suoritustarkistin",
+  "author": "Toska",
   "main": "main.js",
   "scripts": {
     "watch": "webpack --watch --progress --debug",
-    "build": "webpack --progress",
+    "build:front": "webpack --progress",
     "start": "NODE_ENV=development electron .",
-    "app": "NODE_ENV=production electron .",
+    "app:run": "npm run build:front && NODE_ENV=production electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "test": "ava"
+    "test": "ava",
+    "app:build": "npm run build:front && npm run dist"
   },
   "build": {
     "appId": "oodit"
